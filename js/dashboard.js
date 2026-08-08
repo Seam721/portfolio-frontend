@@ -1,80 +1,70 @@
-async function loadDashboard(){
+async function loadDashboard() {
 
-    const token =
-    localStorage.getItem("token");
+    const token = localStorage.getItem("token");
 
-
-    if(!token){
-
-        window.location.href="login.html";
+    if (!token) {
+        window.location.href = "login.html";
         return;
-
     }
 
+    try {
 
-    const response =
-    await fetch(
-        "http://localhost:5000/api/dashboard",
-        {
-            headers:{
-                Authorization:
-                `Bearer ${token}`
+        const response = await fetch(
+            "https://portfolio-backend-production-5e12.up.railway.app/api/dashboard",
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
             }
+        );
+
+        const data = await response.json();
+
+        if (!data.success) {
+
+            localStorage.removeItem("token");
+            window.location.href = "login.html";
+            return;
+
         }
-    );
 
+        document.getElementById("total").innerText =
+            data.data.totalMessages;
 
-    const data =
-    await response.json();
+        const table =
+            document.getElementById("messages");
 
+        table.innerHTML = "";
 
+        data.data.latestMessages.forEach(item => {
 
-    if(!data.success){
+            table.innerHTML += `
 
-        localStorage.removeItem("token");
-        window.location.href="login.html";
-        return;
+                <tr>
+
+                    <td>${item.name}</td>
+
+                    <td>${item.email}</td>
+
+                    <td>${item.message}</td>
+
+                    <td>${item.created_at}</td>
+
+                </tr>
+
+            `;
+
+        });
+
+    } catch (error) {
+
+        console.error(
+            "Dashboard API Error:",
+            error
+        );
 
     }
-
-
-    document.getElementById("total")
-    .innerText =
-    data.data.totalMessages;
-
-
-
-    const table =
-    document.getElementById("messages");
-
-
-    table.innerHTML="";
-
-
-    data.data.latestMessages.forEach(item=>{
-
-
-        table.innerHTML += `
-
-        <tr>
-
-        <td>${item.name}</td>
-
-        <td>${item.email}</td>
-
-        <td>${item.message}</td>
-
-        <td>${item.created_at}</td>
-
-        </tr>
-
-        `;
-
-
-    });
-
 
 }
-
 
 loadDashboard();
