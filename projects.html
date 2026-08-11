@@ -1,90 +1,450 @@
 <!DOCTYPE html>
+
 <html lang="en">
 
 <head>
 
 <meta charset="UTF-8">
 
-<meta name="viewport"
-content="width=device-width,initial-scale=1">
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
 
-<title>Project Details</title>
+<title>Projects | Admin</title>
 
-<link rel="stylesheet"
-href="css/style.css">
+<link
+    rel="stylesheet"
+    href="./css/admin.css"
+>
 
 </head>
 
 <body>
 
-<header>
+<div class="admin-layout">
 
-<h2>Seam Barang</h2>
+<!-- SIDEBAR -->
 
-<nav>
+<aside class="sidebar">
 
-<a href="index.html">Home</a>
+    <div class="sidebar-header">
 
-<a href="projects.html">Projects</a>
+        <h2>
+            Seam Admin
+        </h2>
 
-</nav>
+        <p>
+            Portfolio Management
+        </p>
 
-</header>
-
-
-<section class="project-details">
-
-<img
-id="project-image"
-src=""
-alt="Project Image">
+    </div>
 
 
-<h1 id="project-title">
-Loading...
-</h1>
+    <nav class="sidebar-nav">
+
+        <a
+            href="dashboard.html"
+            class="nav-link"
+        >
+            Dashboard
+        </a>
+
+        <a
+            href="profile.html"
+            class="nav-link"
+        >
+            Profile
+        </a>
+
+        <a
+            href="projects.html"
+            class="nav-link active"
+        >
+            Projects
+        </a>
+
+        <a
+            href="skills.html"
+            class="nav-link"
+        >
+            Skills
+        </a>
+
+        <a
+            href="messages.html"
+            class="nav-link"
+        >
+            Messages
+        </a>
+
+    </nav>
 
 
-<p id="project-description">
+    <div class="sidebar-footer">
 
-</p>
+        <button
+            id="logoutButton"
+            type="button"
+        >
+            Logout
+        </button>
+
+    </div>
+
+</aside>
 
 
-<h3>
-Technologies
-</h3>
 
-<p id="project-tech">
+<!-- MAIN -->
 
-</p>
+<main class="main-content">
 
 
-<div class="project-buttons">
+    <!-- TOPBAR -->
 
-<a
-id="github-btn"
-class="btn"
-target="_blank">
+    <header class="topbar">
 
-GitHub
+        <div>
 
-</a>
+            <h1>
+                Projects
+            </h1>
 
-<a
-id="demo-btn"
-class="btn"
-target="_blank">
+            <p>
+                Create and manage your portfolio projects.
+            </p>
 
-Live Demo
+        </div>
 
-</a>
+
+        <button
+            id="addProjectButton"
+            class="action-button"
+            type="button"
+        >
+            + Add Project
+        </button>
+
+    </header>
+
+
+
+    <!-- CONTENT -->
+
+    <section class="dashboard-content">
+
+
+        <p
+            id="projectMessage"
+            class="message"
+        ></p>
+
+<!-- PROJECT FORM -->
+
+<div
+    id="projectFormContainer"
+    class="project-form-card"
+    style="display: none;"
+>
+
+    <!-- FORM HEADER -->
+
+    <div class="project-form-header">
+
+        <div>
+
+            <span class="form-label-small">
+                PORTFOLIO MANAGEMENT
+            </span>
+
+            <h2 id="formTitle">
+                Add Project
+            </h2>
+
+            <p>
+                Add a new project to your portfolio.
+            </p>
+
+        </div>
+
+
+        <button
+            type="button"
+            id="closeProjectForm"
+            class="form-close-button"
+        >
+            ×
+        </button>
+
+    </div>
+
+
+
+    <!-- FORM -->
+
+    <form id="projectForm">
+
+        <input
+            type="hidden"
+            id="projectId"
+        >
+
+
+        <div class="project-form-grid">
+
+
+            <!-- PROJECT TITLE -->
+
+            <div class="project-field">
+
+                <label for="title">
+
+                    Project Title
+
+                    <span>*</span>
+
+                </label>
+
+
+                <input
+                    id="title"
+                    type="text"
+                    placeholder="e.g. Portfolio Website"
+                    required
+                >
+
+            </div>
+
+
+
+            <!-- TECHNOLOGIES -->
+
+            <div class="project-field">
+
+                <label for="technologies">
+
+                    Technologies
+
+                </label>
+
+
+                <input
+                    id="technologies"
+                    type="text"
+                    placeholder="HTML, CSS, JavaScript, Node.js"
+                >
+
+
+                <small>
+                    Separate technologies with commas.
+                </small>
+
+            </div>
+
+
+
+            <!-- DESCRIPTION -->
+
+            <div
+                class="project-field project-field-full"
+            >
+
+                <label for="description">
+
+                    Description
+
+                    <span>*</span>
+
+                </label>
+
+
+                <textarea
+                    id="description"
+                    rows="5"
+                    placeholder="Describe your project, its purpose, and the technologies you used..."
+                    required
+                ></textarea>
+
+            </div>
+
+
+
+            <!-- IMAGE -->
+
+            <div class="project-field">
+
+                <label for="image">
+
+                    Image URL
+
+                </label>
+
+
+                <input
+                    id="image"
+                    type="url"
+                    placeholder="https://example.com/project.jpg"
+                >
+
+            </div>
+
+
+
+            <!-- GITHUB -->
+
+            <div class="project-field">
+
+                <label for="github_url">
+
+                    GitHub URL
+
+                </label>
+
+
+                <input
+                    id="github_url"
+                    type="url"
+                    placeholder="https://github.com/username/project"
+                >
+
+            </div>
+
+
+
+            <!-- DEMO -->
+
+            <div class="project-field">
+
+                <label for="demo_url">
+
+                    Live Demo URL
+
+                </label>
+
+
+                <input
+                    id="demo_url"
+                    type="url"
+                    placeholder="https://myproject.vercel.app"
+                >
+
+            </div>
+
+
+
+            <!-- FEATURED -->
+
+            <div
+                class="project-field featured-field"
+            >
+
+                <label>
+                    Featured Project
+                </label>
+
+
+                <label
+                    class="featured-checkbox"
+                >
+
+                    <input
+                        id="featured"
+                        type="checkbox"
+                    >
+
+
+                    <span>
+                        Show this project as featured
+                    </span>
+
+                </label>
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- FORM FOOTER -->
+
+        <div class="project-form-footer">
+
+
+            <button
+                type="button"
+                id="cancelProjectButton"
+                class="cancel-project-button"
+            >
+                Cancel
+            </button>
+
+
+            <button
+                type="submit"
+                id="saveProjectButton"
+                class="save-project-button"
+            >
+
+                <span>＋</span>
+
+                Save Project
+
+            </button>
+
+
+        </div>
+
+
+    </form>
 
 </div>
 
-</section>
 
 
-<script src="js/project.js"></script>
+        <!-- PROJECT LIST -->
+
+        <div class="section-card">
+
+
+            <div class="section-header">
+
+                <h2>
+                    All Projects
+                </h2>
+
+            </div>
+
+
+            <div
+                id="projectsContainer"
+                class="projects-container"
+            >
+
+                <p>
+                    Loading projects...
+                </p>
+
+            </div>
+
+
+        </div>
+
+
+    </section>
+
+
+</main>
+
+</div>
+
+
+
+
+<script src="./js/auth.js"></script>
+
+<script src="./js/projects.js"></script>
 
 </body>
 

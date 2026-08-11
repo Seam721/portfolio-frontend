@@ -1,25 +1,109 @@
 <!DOCTYPE html>
+
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Login</title>
+
+```
+<title>Admin Login | Seam Barang</title>
+
+<link rel="stylesheet" href="./css/login.css">
+```
+
 </head>
+
 <body>
 
-<h2>Admin Login</h2>
+```
+<main class="login-page">
 
-<input id="email" type="email" placeholder="Email">
-<br><br>
+    <section class="login-card">
 
-<input id="password" type="password" placeholder="Password">
-<br><br>
+        <div class="login-header">
 
-<button onclick="login()">Login</button>
+            <div class="admin-icon">
+                🔐
+            </div>
 
-<p id="message"></p>
+            <h1>Admin Login</h1>
+
+            <p>
+                Sign in to manage your portfolio
+            </p>
+
+        </div>
+
+
+        <form id="loginForm">
+
+            <div class="form-group">
+
+                <label for="email">
+                    Email
+                </label>
+
+                <input
+                    id="email"
+                    type="email"
+                    placeholder="Enter your email"
+                    autocomplete="email"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="password">
+                    Password
+                </label>
+
+                <input
+                    id="password"
+                    type="password"
+                    placeholder="Enter your password"
+                    autocomplete="current-password"
+                    required
+                >
+
+            </div>
+
+
+            <button
+                id="loginButton"
+                type="submit"
+            >
+                Login
+            </button>
+
+        </form>
+
+
+        <p
+            id="message"
+            class="message"
+        ></p>
+
+
+        <div class="login-footer">
+
+            <a href="../portfolio-website/index.html">
+                ← Back to Portfolio
+            </a>
+
+        </div>
+
+    </section>
+
+</main>
+
 
 <script src="./js/login.js"></script>
+```
 
 </body>
+
 </html>

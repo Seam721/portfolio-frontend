@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Messages | Admin
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="./css/admin.css"
+    >
+
+</head>
+
+
+<body>
+
+
+<div class="admin-layout">
+
+
+    <!-- ========================================
+         SIDEBAR
+    ======================================== -->
+
+    <aside class="sidebar">
+
+        <div class="sidebar-header">
+
+            <h2>
+                Seam Admin
+            </h2>
+
+            <p>
+                Portfolio Management
+            </p>
+
+        </div>
+
+
+        <nav class="sidebar-nav">
+
+            <a
+                href="dashboard.html"
+                class="nav-link"
+            >
+                Dashboard
+            </a>
+
+
+            <a
+                href="profile.html"
+                class="nav-link"
+            >
+                Profile
+            </a>
+
+
+            <a
+                href="projects.html"
+                class="nav-link"
+            >
+                Projects
+            </a>
+
+
+            <a
+                href="skills.html"
+                class="nav-link"
+            >
+                Skills
+            </a>
+
+
+            <a
+                href="messages.html"
+                class="nav-link active"
+            >
+                Messages
+            </a>
+
+        </nav>
+
+    </aside>
+
+
+
+    <!-- ========================================
+         MAIN CONTENT
+    ======================================== -->
+
+    <main class="admin-main">
+
+
+        <!-- PAGE HEADER -->
+
+        <div class="page-header">
+
+            <div>
+
+                <span class="form-label-small">
+                    PORTFOLIO MANAGEMENT
+                </span>
+
+
+                <h1>
+                    Messages
+                </h1>
+
+
+                <p>
+                    View messages submitted through your portfolio contact form.
+                </p>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- ========================================
+             MESSAGE SECTION
+        ======================================== -->
+
+        <div class="section-card">
+
+
+            <!-- SECTION HEADER -->
+
+            <div class="section-header">
+
+                <div>
+
+                    <h2>
+                        All Messages
+                    </h2>
+
+
+                    <p>
+                        Messages from visitors and potential clients.
+                    </p>
+
+                </div>
+
+
+                <div
+                    id="messageCount"
+                    class="message-count"
+                >
+                    0 Messages
+                </div>
+
+            </div>
+
+
+
+            <!-- MESSAGES -->
+
+            <div
+                id="messagesContainer"
+                class="messages-container"
+            >
+
+                <div class="messages-loading">
+
+                    <div class="loading-spinner"></div>
+
+                    <p>
+                        Loading messages...
+                    </p>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+    </main>
+
+</div>
+
+
+<script src="./js/messages.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Profile | Admin
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="./css/admin.css"
+    >
+
+</head>
+
+
+<body>
+
+
+<div class="admin-layout">
+
+
+    <!-- ========================================
+         SIDEBAR
+    ======================================== -->
+
+    <aside class="sidebar">
+
+        <div class="sidebar-header">
+
+            <h2>
+                Seam Admin
+            </h2>
+
+            <p>
+                Portfolio Management
+            </p>
+
+        </div>
+
+
+        <nav class="sidebar-nav">
+
+            <a
+                href="dashboard.html"
+                class="nav-link"
+            >
+                Dashboard
+            </a>
+
+
+            <a
+                href="profile.html"
+                class="nav-link active"
+            >
+                Profile
+            </a>
+
+
+            <a
+                href="projects.html"
+                class="nav-link"
+            >
+                Projects
+            </a>
+
+
+            <a
+                href="skills.html"
+                class="nav-link"
+            >
+                Skills
+            </a>
+
+
+            <a
+                href="messages.html"
+                class="nav-link"
+            >
+                Messages
+            </a>
+
+        </nav>
+
+    </aside>
+
+
+
+    <!-- ========================================
+         MAIN
+    ======================================== -->
+
+    <main class="admin-main">
+
+
+        <!-- PAGE HEADER -->
+
+        <div class="page-header">
+
+            <div>
+
+                <span class="form-label-small">
+                    PORTFOLIO MANAGEMENT
+                </span>
+
+
+                <h1>
+                    Profile
+                </h1>
+
+
+                <p>
+                    Manage your personal information and portfolio profile.
+                </p>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- ========================================
+             PROFILE CARD
+        ======================================== -->
+
+        <div class="profile-card">
+
+
+            <!-- PROFILE HEADER -->
+
+            <div class="profile-card-header">
+
+                <div>
+
+                    <span class="form-label-small">
+                        PERSONAL INFORMATION
+                    </span>
+
+
+                    <h2>
+                        Profile Information
+                    </h2>
+
+
+                    <p>
+                        Update the information displayed on your portfolio.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- PROFILE FORM -->
+
+            <form id="profileForm">
+
+
+                <div class="profile-form-grid">
+
+
+                    <!-- FULL NAME -->
+
+                    <div class="profile-field">
+
+                        <label for="full_name">
+
+                            Full Name
+
+                            <span>*</span>
+
+                        </label>
+
+
+                        <input
+                            type="text"
+                            id="full_name"
+                            placeholder="e.g. Seam Barang"
+                            required
+                        >
+
+                    </div>
+
+
+
+                    <!-- TITLE -->
+
+                    <div class="profile-field">
+
+                        <label for="title">
+
+                            Professional Title
+
+                            <span>*</span>
+
+                        </label>
+
+
+                        <input
+                            type="text"
+                            id="title"
+                            placeholder="e.g. Full Stack Developer"
+                            required
+                        >
+
+                    </div>
+
+
+
+                    <!-- EMAIL -->
+
+                    <div class="profile-field">
+
+                        <label for="email">
+
+                            Email
+
+                        </label>
+
+
+                        <input
+                            type="email"
+                            id="email"
+                            placeholder="example@gmail.com"
+                        >
+
+                    </div>
+
+
+
+                    <!-- PHONE -->
+
+                    <div class="profile-field">
+
+                        <label for="phone">
+
+                            Phone
+
+                        </label>
+
+
+                        <input
+                            type="tel"
+                            id="phone"
+                            placeholder="+855 XX XXX XXX"
+                        >
+
+                    </div>
+
+
+
+                    <!-- LOCATION -->
+
+                    <div class="profile-field">
+
+                        <label for="location">
+
+                            Location
+
+                        </label>
+
+
+                        <input
+                            type="text"
+                            id="location"
+                            placeholder="Phnom Penh, Cambodia"
+                        >
+
+                    </div>
+
+
+
+                    <!-- WEBSITE -->
+
+                    <div class="profile-field">
+
+                        <label for="website">
+
+                            Website
+
+                        </label>
+
+
+                        <input
+                            type="url"
+                            id="website"
+                            placeholder="https://example.com"
+                        >
+
+                    </div>
+
+
+
+                    <!-- BIO -->
+
+                    <div class="profile-field profile-field-full">
+
+                        <label for="bio">
+
+                            Biography
+
+                            <span>*</span>
+
+                        </label>
+
+
+                        <textarea
+                            id="bio"
+                            rows="6"
+                            placeholder="Write a short description about yourself..."
+                            required
+                        ></textarea>
+
+                    </div>
+
+
+
+                    <!-- PROFILE IMAGE -->
+
+                    <div class="profile-field">
+
+                        <label for="profile_image">
+
+                            Profile Image URL
+
+                        </label>
+
+
+                        <input
+                            type="url"
+                            id="profile_image"
+                            placeholder="https://example.com/profile.jpg"
+                        >
+
+                    </div>
+
+
+
+                    <!-- RESUME -->
+
+                    <div class="profile-field">
+
+                        <label for="resume_url">
+
+                            Resume URL
+
+                        </label>
+
+
+                        <input
+                            type="url"
+                            id="resume_url"
+                            placeholder="https://example.com/resume.pdf"
+                        >
+
+                    </div>
+
+
+
+                </div>
+
+
+
+                <!-- ========================================
+                     SOCIAL LINKS
+                ======================================== -->
+
+                <div class="profile-section">
+
+                    <div class="profile-section-title">
+
+                        <h3>
+                            Social Links
+                        </h3>
+
+                        <p>
+                            Add links to your professional social profiles.
+                        </p>
+
+                    </div>
+
+
+                    <div class="profile-form-grid">
+
+
+                        <!-- GITHUB -->
+
+                        <div class="profile-field">
+
+                            <label for="github">
+
+                                GitHub
+
+                            </label>
+
+
+                            <input
+                                type="url"
+                                id="github"
+                                placeholder="https://github.com/username"
+                            >
+
+                        </div>
+
+
+
+                        <!-- LINKEDIN -->
+
+                        <div class="profile-field">
+
+                            <label for="linkedin">
+
+                                LinkedIn
+
+                            </label>
+
+
+                            <input
+                                type="url"
+                                id="linkedin"
+                                placeholder="https://linkedin.com/in/username"
+                            >
+
+                        </div>
+
+
+
+                        <!-- FACEBOOK -->
+
+                        <div class="profile-field">
+
+                            <label for="facebook">
+
+                                Facebook
+
+                            </label>
+
+
+                            <input
+                                type="url"
+                                id="facebook"
+                                placeholder="https://facebook.com/username"
+                            >
+
+                        </div>
+
+
+
+                        <!-- TELEGRAM -->
+
+                        <div class="profile-field">
+
+                            <label for="telegram">
+
+                                Telegram
+
+                            </label>
+
+
+                            <input
+                                type="url"
+                                id="telegram"
+                                placeholder="https://t.me/username"
+                            >
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- ========================================
+                     FORM FOOTER
+                ======================================== -->
+
+                <div class="profile-form-footer">
+
+                    <button
+                        type="submit"
+                        id="saveProfileButton"
+                        class="save-project-button"
+                    >
+
+                        <span>
+                            ✓
+                        </span>
+
+                        Save Profile
+
+                    </button>
+
+                </div>
+
+
+            </form>
+
+        </div>
+
+
+    </main>
+
+</div>
+
+
+<script src="./js/profile.js"></script>
+
+</body>
+
+</html>

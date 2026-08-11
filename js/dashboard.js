@@ -1,149 +1,288 @@
-async function loadDashboard() {
+// ========================================
+// API
+// ========================================
 
-    const token = localStorage.getItem("token");
+const API_URL =
+    "https://portfolio-backend-production-5e12.up.railway.app/api";
+
+
+// ========================================
+// ELEMENTS
+// ========================================
+
+const projectCount =
+    document.getElementById("projectCount");
+
+const skillCount =
+    document.getElementById("skillCount");
+
+const messageCount =
+    document.getElementById("messageCount");
+
+const adminEmail =
+    document.getElementById("adminEmail");
+
+
+// ========================================
+// GET AUTH HEADERS
+// ========================================
+
+function getHeaders() {
+
+    const token =
+        localStorage.getItem("token");
+
 
     if (!token) {
-        window.location.href = "login.html";
-        return;
+
+        console.error(
+            "No authentication token found."
+        );
+
+        return null;
     }
 
-    const totalElement = document.getElementById("total");
-    const table = document.getElementById("messages");
+
+    return {
+
+        "Authorization":
+            `Bearer ${token}`,
+
+        "Content-Type":
+            "application/json"
+    };
+}
+
+
+// ========================================
+// LOAD DASHBOARD STATS
+// ========================================
+
+async function loadDashboardStats() {
 
     try {
 
-        const response = await fetch(
-            "https://portfolio-backend-production-5e12.up.railway.app/api/dashboard",
-            {
-                method: "GET",
-                headers: {
-                    "Authorization": "Bearer " + token,
-                    "Content-Type": "application/json"
-                }
-            }
-        );
+        const headers =
+            getHeaders();
 
-        console.log("Dashboard HTTP Status:", response.status);
 
-        const data = await response.json();
+        if (!headers) {
 
-        console.log("Dashboard API Response:", data);
-
-        if (!response.ok) {
-
-            totalElement.innerText = "Error";
-
-            table.innerHTML = `
-                <tr>
-                    <td colspan="4">
-                        ${data.message || "Dashboard request failed"}
-                    </td>
-                </tr>
-            `;
+            window.location.href =
+                "login.html";
 
             return;
         }
 
-        if (!data.success) {
+
+        console.log(
+            "Loading dashboard statistics..."
+        );
+
+
+        const [
+            projectsResponse,
+            skillsResponse,
+            messagesResponse
+        ] = await Promise.all([
+
+            fetch(
+                `${API_URL}/projects`,
+                {
+                    method: "GET",
+                    headers: headers
+                }
+            ),
+
+            fetch(
+                `${API_URL}/skills`,
+                {
+                    method: "GET",
+                    headers: headers
+                }
+            ),
+
+            fetch(
+                `${API_URL}/contact`,
+                {
+                    method: "GET",
+                    headers: headers
+                }
+            )
+
+        ]);
+
+
+        // ========================================
+        // HANDLE UNAUTHORIZED
+        // ========================================
+
+        if (
+            projectsResponse.status === 401 ||
+            skillsResponse.status === 401 ||
+            messagesResponse.status === 401
+        ) {
+
+            console.error(
+                "Authentication expired."
+            );
 
             localStorage.removeItem("token");
 
-            window.location.href = "login.html";
+            localStorage.removeItem("admin");
+
+            window.location.href =
+                "login.html";
 
             return;
         }
 
-        /*
-         * Support the expected API structure:
-         *
-         * {
-         *   success: true,
-         *   data: {
-         *      totalMessages: 1,
-         *      latestMessages: []
-         *   }
-         * }
-         */
 
-        const dashboardData = data.data;
+        // ========================================
+        // CONVERT RESPONSES TO JSON
+        // ========================================
 
-        if (!dashboardData) {
+        const projectsResult =
+            await projectsResponse.json();
 
-            totalElement.innerText = "0";
+        const skillsResult =
+            await skillsResponse.json();
 
-            table.innerHTML = `
-                <tr>
-                    <td colspan="4">
-                        Dashboard API returned no data.
-                    </td>
-                </tr>
-            `;
+        const messagesResult =
+            await messagesResponse.json();
 
-            console.error(
-                "Missing data property:",
-                data
-            );
 
-            return;
+        console.log(
+            "Projects API:",
+            projectsResult
+        );
+
+        console.log(
+            "Skills API:",
+            skillsResult
+        );
+
+        console.log(
+            "Messages API:",
+            messagesResult
+        );
+
+
+        // ========================================
+        // GET DATA
+        // ========================================
+
+        const projects =
+            Array.isArray(
+                projectsResult.data
+            )
+                ? projectsResult.data
+                : Array.isArray(projectsResult)
+                    ? projectsResult
+                    : [];
+
+
+        const skills =
+            Array.isArray(
+                skillsResult.data
+            )
+                ? skillsResult.data
+                : Array.isArray(skillsResult)
+                    ? skillsResult
+                    : [];
+
+
+        const messages =
+            Array.isArray(
+                messagesResult.data
+            )
+                ? messagesResult.data
+                : Array.isArray(messagesResult)
+                    ? messagesResult
+                    : [];
+
+
+        // ========================================
+        // UPDATE COUNTS
+        // ========================================
+
+        projectCount.textContent =
+            projects.length;
+
+
+        skillCount.textContent =
+            skills.length;
+
+
+        messageCount.textContent =
+            messages.length;
+
+
+        console.log(
+            "Dashboard counts:",
+            {
+                projects: projects.length,
+                skills: skills.length,
+                messages: messages.length
+            }
+        );
+
+
+        // ========================================
+        // ADMIN INFORMATION
+        // ========================================
+
+        const admin =
+            localStorage.getItem("admin");
+
+
+        if (admin) {
+
+            try {
+
+                const adminData =
+                    JSON.parse(admin);
+
+
+                adminEmail.textContent =
+                    adminData.email ||
+                    "Administrator";
+
+            } catch (error) {
+
+                console.error(
+                    "Admin data error:",
+                    error
+                );
+
+            }
         }
 
-        const totalMessages =
-            dashboardData.totalMessages ?? 0;
-
-        const latestMessages =
-            dashboardData.latestMessages ?? [];
-
-        totalElement.innerText =
-            totalMessages;
-
-        table.innerHTML = "";
-
-        if (latestMessages.length === 0) {
-
-            table.innerHTML = `
-                <tr>
-                    <td colspan="4">
-                        No messages found.
-                    </td>
-                </tr>
-            `;
-
-            return;
-        }
-
-        latestMessages.forEach(item => {
-
-            const row = document.createElement("tr");
-
-            row.innerHTML = `
-                <td>${item.name ?? ""}</td>
-                <td>${item.email ?? ""}</td>
-                <td>${item.message ?? ""}</td>
-                <td>${item.created_at ?? ""}</td>
-            `;
-
-            table.appendChild(row);
-
-        });
 
     } catch (error) {
 
         console.error(
-            "Dashboard API Error:",
+            "Dashboard error:",
             error
         );
 
-        totalElement.innerText = "Error";
 
-        table.innerHTML = `
-            <tr>
-                <td colspan="4">
-                    Cannot connect to dashboard API.
-                </td>
-            </tr>
-        `;
+        projectCount.textContent =
+            "0";
+
+        skillCount.textContent =
+            "0";
+
+        messageCount.textContent =
+            "0";
 
     }
+
 }
 
-loadDashboard();
+
+// ========================================
+// INITIAL LOAD
+// ========================================
+
+loadDashboardStats();

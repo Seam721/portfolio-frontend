@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Skills | Admin
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="./css/admin.css"
+    >
+
+</head>
+
+
+<body>
+
+
+<div class="admin-layout">
+
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+        <div class="sidebar-header">
+
+            <h2>
+                Seam Admin
+            </h2>
+
+            <p>
+                Portfolio Management
+            </p>
+
+        </div>
+
+
+        <nav class="sidebar-nav">
+
+            <a
+                href="dashboard.html"
+                class="nav-link"
+            >
+                Dashboard
+            </a>
+
+            <a
+                href="profile.html"
+                class="nav-link"
+            >
+                Profile
+            </a>
+
+            <a
+                href="projects.html"
+                class="nav-link"
+            >
+                Projects
+            </a>
+
+            <a
+                href="skills.html"
+                class="nav-link active"
+            >
+                Skills
+            </a>
+
+            <a
+                href="messages.html"
+                class="nav-link"
+            >
+                Messages
+            </a>
+
+        </nav>
+
+    </aside>
+
+
+
+    <!-- MAIN -->
+
+    <main class="admin-main">
+
+
+        <!-- PAGE HEADER -->
+
+        <div class="page-header">
+
+            <div>
+
+                <span class="form-label-small">
+                    PORTFOLIO MANAGEMENT
+                </span>
+
+                <h1>
+                    Skills
+                </h1>
+
+                <p>
+                    Manage the skills displayed on your portfolio.
+                </p>
+
+            </div>
+
+
+            <button
+                type="button"
+                id="addSkillButton"
+                class="save-project-button"
+            >
+
+                <span>＋</span>
+
+                Add Skill
+
+            </button>
+
+        </div>
+
+
+
+        <!-- SKILLS LIST -->
+
+        <div class="section-card">
+
+
+            <div class="section-header">
+
+                <div>
+
+                    <h2>
+                        All Skills
+                    </h2>
+
+                    <p>
+                        Manage your technical skills and proficiency.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div
+                id="skillsContainer"
+                class="skills-container"
+            >
+
+                <p>
+                    Loading skills...
+                </p>
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- SKILL FORM -->
+
+        <div
+            id="skillFormContainer"
+            class="skill-form-container"
+            style="display: none;"
+        >
+
+            <div class="skill-form-header">
+
+                <div>
+
+                    <span class="form-label-small">
+                        SKILL MANAGEMENT
+                    </span>
+
+                    <h2 id="skillFormTitle">
+                        Add Skill
+                    </h2>
+
+                    <p>
+                        Add a skill to your portfolio.
+                    </p>
+
+                </div>
+
+
+                <button
+                    type="button"
+                    id="closeSkillForm"
+                    class="form-close-button"
+                >
+                    ×
+                </button>
+
+            </div>
+
+
+
+            <form id="skillForm">
+
+
+                <input
+                    type="hidden"
+                    id="skillId"
+                >
+
+
+                <div class="skill-form-grid">
+
+
+                    <!-- NAME -->
+
+                    <div class="skill-field">
+
+                        <label for="skillName">
+
+                            Skill Name
+
+                            <span>*</span>
+
+                        </label>
+
+                        <input
+                            id="skillName"
+                            type="text"
+                            placeholder="e.g. JavaScript"
+                            required
+                        >
+
+                    </div>
+
+
+
+                    <!-- CATEGORY -->
+
+                    <div class="skill-field">
+
+                        <label for="skillCategory">
+
+                            Category
+
+                        </label>
+
+                        <select id="skillCategory">
+
+                            <option value="">
+                                Select category
+                            </option>
+
+                            <option value="Frontend">
+                                Frontend
+                            </option>
+
+                            <option value="Backend">
+                                Backend
+                            </option>
+
+                            <option value="Database">
+                                Database
+                            </option>
+
+                            <option value="Tools">
+                                Tools
+                            </option>
+
+                            <option value="Other">
+                                Other
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+
+                    <!-- LEVEL -->
+
+                    <div class="skill-field">
+
+                        <label for="skillLevel">
+
+                            Skill Level
+
+                        </label>
+
+                        <select id="skillLevel">
+
+                            <option value="Beginner">
+                                Beginner
+                            </option>
+
+                            <option value="Intermediate">
+                                Intermediate
+                            </option>
+
+                            <option value="Advanced">
+                                Advanced
+                            </option>
+
+                            <option value="Expert">
+                                Expert
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+
+                    <!-- PERCENTAGE -->
+
+                    <div class="skill-field">
+
+                        <label for="skillPercentage">
+
+                            Proficiency %
+
+                        </label>
+
+                        <input
+                            id="skillPercentage"
+                            type="number"
+                            min="0"
+                            max="100"
+                            placeholder="90"
+                        >
+
+                    </div>
+
+
+                </div>
+
+
+
+                <!-- FOOTER -->
+
+                <div class="project-form-footer">
+
+                    <button
+                        type="button"
+                        id="cancelSkillButton"
+                        class="cancel-project-button"
+                    >
+                        Cancel
+                    </button>
+
+
+                    <button
+                        type="submit"
+                        id="saveSkillButton"
+                        class="save-project-button"
+                    >
+
+                        <span>＋</span>
+
+                        Save Skill
+
+                    </button>
+
+                </div>
+
+
+            </form>
+
+        </div>
+
+
+    </main>
+
+</div>
+
+
+<script src="./js/skills.js"></script>
+
+</body>
+
+</html>

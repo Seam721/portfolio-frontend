@@ -1,71 +1,123 @@
-async function login() {
+const loginForm = document.getElementById("loginForm");
+const loginButton = document.getElementById("loginButton");
+const message = document.getElementById("message");
 
-    try {
+loginForm.addEventListener("submit", async function (event) {
 
-        const email =
-            document.getElementById("email").value.trim();
+event.preventDefault();
 
-        const password =
-            document.getElementById("password").value.trim();
 
-        console.log("Email:", email);
+const email =
+    document.getElementById("email").value.trim();
 
-        const response = await fetch(
-            "https://portfolio-backend-production-5e12.up.railway.app/api/auth/login",
-            {
-                method: "POST",
+const password =
+    document.getElementById("password").value;
 
-                headers: {
-                    "Content-Type": "application/json"
-                },
 
-                body: JSON.stringify({
-                    email,
-                    password
-                })
-            }
-        );
+if (!email || !password) {
 
-        console.log("HTTP Status:", response.status);
+    message.textContent =
+        "Please enter your email and password.";
 
-        const data =
-            await response.json();
+    return;
+}
 
-        console.log("Response:", data);
 
-        if (data.success) {
+try {
+
+    loginButton.disabled = true;
+
+    loginButton.textContent = "Logging in...";
+
+    message.textContent = "";
+
+
+    const response = await fetch(
+        "https://portfolio-backend-production-5e12.up.railway.app/api/auth/login",
+        {
+            method: "POST",
+
+            headers: {
+                "Content-Type": "application/json"
+            },
+
+            body: JSON.stringify({
+                email: email,
+                password: password
+            })
+        }
+    );
+
+
+    const data = await response.json();
+
+
+    console.log("HTTP Status:", response.status);
+
+    console.log("Login Response:", data);
+
+
+    const token =
+    data.token ||
+    data.data?.token;
+
+if (data.success && token) {
+
+    localStorage.setItem(
+        "token",
+        token
+    );
+
+
+        // Optional: save admin information
+        if (data.admin) {
 
             localStorage.setItem(
-                "token",
-                data.token
+                "admin",
+                JSON.stringify(data.admin)
             );
 
-            alert("Login successful!");
+        }
+
+
+        message.textContent =
+            "Login successful. Redirecting...";
+
+
+        // Go to dashboard
+        setTimeout(function () {
 
             window.location.href =
                 "dashboard.html";
 
-        } else {
+        }, 500);
 
-            document.getElementById(
-                "message"
-            ).innerText =
-                data.message || "Login failed";
 
-        }
+    } else {
 
-    } catch (error) {
-
-        console.error(
-            "Error:",
-            error
-        );
-
-        document.getElementById(
-            "message"
-        ).innerText =
-            "Cannot connect to server.";
+        message.textContent =
+            data.message || "Invalid email or password.";
 
     }
 
+
+} catch (error) {
+
+    console.error(
+        "Login error:",
+        error
+    );
+
+
+    message.textContent =
+        "Cannot connect to server. Please try again.";
+
+} finally {
+
+    loginButton.disabled = false;
+
+    loginButton.textContent = "Login";
+
 }
+
+});
