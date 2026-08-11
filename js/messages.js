@@ -1,5 +1,14 @@
+// ========================================
+// API
+// ========================================
+
 const API_URL =
     "https://portfolio-backend-production-5e12.up.railway.app/api";
+
+
+// ========================================
+// ELEMENTS
+// ========================================
 
 const messagesContainer =
     document.getElementById("messagesContainer");
@@ -7,58 +16,182 @@ const messagesContainer =
 const messageCount =
     document.getElementById("messageCount");
 
-    
+
 // ========================================
 // LOAD MESSAGES
 // ========================================
 
 async function loadMessages() {
 
+    console.log("1. loadMessages() started");
+
+
     try {
 
         messagesContainer.innerHTML = `
-
             <div class="messages-loading">
-
                 <div class="loading-spinner"></div>
-
-                <p>
-                    Loading messages...
-                </p>
-
+                <p>Loading messages...</p>
             </div>
-
         `;
 
 
-        const response = await fetch(
-            `${API_URL}/contact`
-        );
+        // ========================================
+        // GET TOKEN
+        // ========================================
 
-
-        const result =
-            await response.json();
+        const token =
+            localStorage.getItem("token");
 
 
         console.log(
-            "Messages API:",
+            "2. Token exists:",
+            !!token
+        );
+
+
+        if (!token) {
+
+            throw new Error(
+                "No login token found. Please login again."
+            );
+        }
+
+
+        // ========================================
+        // REQUEST
+        // ========================================
+
+        const url =
+            `${API_URL}/contact`;
+
+
+        console.log(
+            "3. Request URL:",
+            url
+        );
+
+
+        const response =
+            await fetch(
+                url,
+                {
+                    method: "GET",
+
+                    headers: {
+                        "Authorization":
+                            `Bearer ${token}`,
+
+                        "Content-Type":
+                            "application/json"
+                    }
+                }
+            );
+
+
+        console.log(
+            "4. HTTP status:",
+            response.status
+        );
+
+
+        // ========================================
+        // READ RESPONSE
+        // ========================================
+
+        const text =
+            await response.text();
+
+
+        console.log(
+            "5. Raw response:",
+            text
+        );
+
+
+        let result;
+
+
+        try {
+
+            result =
+                JSON.parse(text);
+
+        } catch (error) {
+
+            throw new Error(
+                "Backend returned invalid JSON."
+            );
+        }
+
+
+        console.log(
+            "6. Parsed API response:",
             result
         );
 
+
+        // ========================================
+        // AUTH ERROR
+        // ========================================
+
+        if (
+            response.status === 401 ||
+            response.status === 403
+        ) {
+
+            localStorage.removeItem("token");
+
+            localStorage.removeItem("admin");
+
+
+            alert(
+                "Your login session expired. Please login again."
+            );
+
+
+            window.location.href =
+                "login.html";
+
+
+            return;
+        }
+
+
+        // ========================================
+        // OTHER API ERROR
+        // ========================================
 
         if (!response.ok) {
 
             throw new Error(
                 result.message ||
-                "Failed to load messages."
+                `Request failed with status ${response.status}`
             );
-
         }
 
 
-        const messages =
-            result.data || result;
+        // ========================================
+        // GET DATA
+        // ========================================
 
+        const messages =
+            Array.isArray(result.data)
+                ? result.data
+                : Array.isArray(result)
+                    ? result
+                    : [];
+
+
+        console.log(
+            "7. Messages:",
+            messages
+        );
+
+
+        // ========================================
+        // DISPLAY
+        // ========================================
 
         displayMessages(messages);
 
@@ -66,7 +199,7 @@ async function loadMessages() {
     } catch (error) {
 
         console.error(
-            "Load messages error:",
+            "Messages error:",
             error
         );
 
@@ -84,7 +217,10 @@ async function loadMessages() {
                 </h3>
 
                 <p>
-                    Please check your backend server.
+                    ${escapeHtml(
+                        error.message ||
+                        "Unknown error"
+                    )}
                 </p>
 
             </div>
@@ -101,6 +237,12 @@ async function loadMessages() {
 // ========================================
 
 function displayMessages(messages) {
+
+    console.log(
+        "Displaying messages:",
+        messages
+    );
+
 
     if (
         !Array.isArray(messages) ||
@@ -132,7 +274,6 @@ function displayMessages(messages) {
         `;
 
         return;
-
     }
 
 
@@ -226,9 +367,7 @@ function displayMessages(messages) {
                     <div class="message-card-footer">
 
                         <span class="message-status">
-
                             ● New Message
-
                         </span>
 
 
@@ -270,11 +409,23 @@ async function deleteMessage(id) {
 
     try {
 
+        const token =
+            localStorage.getItem("token");
+
+
         const response =
             await fetch(
                 `${API_URL}/contact/${id}`,
                 {
-                    method: "DELETE"
+                    method: "DELETE",
+
+                    headers: {
+                        "Authorization":
+                            `Bearer ${token}`,
+
+                        "Content-Type":
+                            "application/json"
+                    }
                 }
             );
 
@@ -289,13 +440,28 @@ async function deleteMessage(id) {
         );
 
 
+        if (
+            response.status === 401 ||
+            response.status === 403
+        ) {
+
+            localStorage.removeItem("token");
+
+            localStorage.removeItem("admin");
+
+            window.location.href =
+                "login.html";
+
+            return;
+        }
+
+
         if (!response.ok) {
 
             throw new Error(
                 result.message ||
                 "Failed to delete message."
             );
-
         }
 
 
@@ -340,7 +506,12 @@ function formatDate(dateValue) {
         new Date(dateValue);
 
 
-    if (isNaN(date.getTime())) {
+    if (
+        isNaN(
+            date.getTime()
+        )
+    ) {
+
         return "Unknown date";
     }
 
@@ -366,8 +537,10 @@ function escapeHtml(value) {
     const div =
         document.createElement("div");
 
+
     div.textContent =
         value ?? "";
+
 
     return div.innerHTML;
 
@@ -377,5 +550,10 @@ function escapeHtml(value) {
 // ========================================
 // INITIAL LOAD
 // ========================================
+
+console.log(
+    "messages.js loaded"
+);
+
 
 loadMessages();

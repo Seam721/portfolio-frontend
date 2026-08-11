@@ -114,37 +114,41 @@ box-shadow: 0 0 0 3px rgba(17, 24, 39, 0.08);
 }
 
 #loginButton {
-width: 100%;
+    width: 100%;
 
-padding: 13px;
+    padding: 13px;
 
-border: none;
+    border: none;
 
-border-radius: 8px;
+    border-radius: 8px;
 
-background: #111827;
+    background: #111827;
 
-color: #ffffff;
+    color: #ffffff;
 
-font-size: 15px;
+    font-size: 15px;
 
-font-weight: 600;
+    font-weight: 600;
 
-cursor: pointer;
+    cursor: pointer;
 
-transition: 0.2s;
-
+    transition: 0.2s;
 }
 
-#loginButton {
-background: #1f2937;
+
+/* Hover */
+
+#loginButton:hover {
+    background: #1f2937;
 }
 
-#loginButton {
-opacity: 0.6;
 
-cursor: not-allowed;
+/* Only while actually disabled */
 
+#loginButton:disabled {
+    opacity: 0.6;
+
+    cursor: not-allowed;
 }
 
 .message {

@@ -1,123 +1,183 @@
-const loginForm = document.getElementById("loginForm");
-const loginButton = document.getElementById("loginButton");
-const message = document.getElementById("message");
+const loginForm =
+    document.getElementById("loginForm");
 
-loginForm.addEventListener("submit", async function (event) {
+const loginButton =
+    document.getElementById("loginButton");
 
-event.preventDefault();
-
-
-const email =
-    document.getElementById("email").value.trim();
-
-const password =
-    document.getElementById("password").value;
+const message =
+    document.getElementById("message");
 
 
-if (!email || !password) {
+// ========================================
+// LOGIN
+// ========================================
 
-    message.textContent =
-        "Please enter your email and password.";
+loginForm.addEventListener(
+    "submit",
+    async function (event) {
 
-    return;
-}
-
-
-try {
-
-    loginButton.disabled = true;
-
-    loginButton.textContent = "Logging in...";
-
-    message.textContent = "";
+        event.preventDefault();
 
 
-    const response = await fetch(
-        "https://portfolio-backend-production-5e12.up.railway.app/api/auth/login",
-        {
-            method: "POST",
+        const email =
+            document
+                .getElementById("email")
+                .value
+                .trim();
 
-            headers: {
-                "Content-Type": "application/json"
-            },
 
-            body: JSON.stringify({
-                email: email,
-                password: password
-            })
+        const password =
+            document
+                .getElementById("password")
+                .value;
+
+
+        // ========================================
+        // VALIDATION
+        // ========================================
+
+        if (!email || !password) {
+
+            message.textContent =
+                "Please enter your email and password.";
+
+            return;
         }
-    );
 
 
-    const data = await response.json();
+        // ========================================
+        // LOADING STATE
+        // ========================================
+
+        loginButton.disabled = true;
+
+        loginButton.textContent =
+            "Logging in...";
+
+        message.textContent = "";
 
 
-    console.log("HTTP Status:", response.status);
+        try {
 
-    console.log("Login Response:", data);
-
-
-    const token =
-    data.token ||
-    data.data?.token;
-
-if (data.success && token) {
-
-    localStorage.setItem(
-        "token",
-        token
-    );
-
-
-        // Optional: save admin information
-        if (data.admin) {
-
-            localStorage.setItem(
-                "admin",
-                JSON.stringify(data.admin)
+            console.log(
+                "Sending login request..."
             );
 
+
+            const response =
+                await fetch(
+                    "https://portfolio-backend-production-5e12.up.railway.app/api/auth/login",
+                    {
+                        method: "POST",
+
+                        headers: {
+                            "Content-Type":
+                                "application/json"
+                        },
+
+                        body: JSON.stringify({
+                            email: email,
+                            password: password
+                        })
+                    }
+                );
+
+
+            console.log(
+                "HTTP Status:",
+                response.status
+            );
+
+
+            const data =
+                await response.json();
+
+
+            console.log(
+                "Login response:",
+                data
+            );
+
+
+            // ========================================
+            // LOGIN SUCCESS
+            // ========================================
+
+            if (
+                response.ok &&
+                data.success === true &&
+                data.token
+            ) {
+
+                localStorage.setItem(
+                    "token",
+                    data.token
+                );
+
+
+                if (data.admin) {
+
+                    localStorage.setItem(
+                        "admin",
+                        JSON.stringify(
+                            data.admin
+                        )
+                    );
+
+                }
+
+
+                message.textContent =
+                    "Login successful!";
+
+
+                console.log(
+                    "Token saved."
+                );
+
+
+                // Redirect immediately
+                window.location.href =
+                    "dashboard.html";
+
+
+                return;
+            }
+
+
+            // ========================================
+            // LOGIN FAILED
+            // ========================================
+
+            message.textContent =
+                data.message ||
+                "Invalid email or password.";
+
+
+        } catch (error) {
+
+            console.error(
+                "LOGIN ERROR:",
+                error
+            );
+
+
+            message.textContent =
+                "Cannot connect to server. Please try again.";
+
+
+        } finally {
+
+            // ========================================
+            // ALWAYS RESTORE BUTTON
+            // ========================================
+
+            loginButton.disabled = false;
+
+            loginButton.textContent =
+                "Login";
+
         }
 
-
-        message.textContent =
-            "Login successful. Redirecting...";
-
-
-        // Go to dashboard
-        setTimeout(function () {
-
-            window.location.href =
-                "dashboard.html";
-
-        }, 500);
-
-
-    } else {
-
-        message.textContent =
-            data.message || "Invalid email or password.";
-
     }
-
-
-} catch (error) {
-
-    console.error(
-        "Login error:",
-        error
-    );
-
-
-    message.textContent =
-        "Cannot connect to server. Please try again.";
-
-} finally {
-
-    loginButton.disabled = false;
-
-    loginButton.textContent = "Login";
-
-}
-
-});
+);
